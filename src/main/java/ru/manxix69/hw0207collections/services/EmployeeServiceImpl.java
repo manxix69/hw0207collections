@@ -1,7 +1,6 @@
 package ru.manxix69.hw0207collections.services;
 
 import org.springframework.stereotype.Service;
-import ru.manxix69.hw0207collections.EmployeeService;
 import ru.manxix69.hw0207collections.domain.Employee;
 import ru.manxix69.hw0207collections.domain.EmployeeBook;
 import ru.manxix69.hw0207collections.exceptions.EmployeeAlreadyAddedException;
@@ -13,8 +12,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private int maxEmployees = 10;
     private EmployeeBook employees = new EmployeeBook(maxEmployees);
 
-    public String addEmployee(String firstName, String lastName) throws EmployeeStorageIsFullException, EmployeeAlreadyAddedException {
-        Employee employee = new Employee(lastName, firstName);
+    public String addEmployee(String firstName, String lastName, Integer department, Double salary) throws EmployeeStorageIsFullException, EmployeeAlreadyAddedException {
+        Employee employee = new Employee(lastName, firstName, department, salary);
         employees.addEmployee(employee);
         return employee.toString();
     }
@@ -32,6 +31,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public String showAll() {
         return employees.showAllEmployees();
+    }
+
+    @Override
+    public EmployeeBook getEmployees() {
+        return employees;
     }
 
 }
