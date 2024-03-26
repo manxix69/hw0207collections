@@ -4,7 +4,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import ru.manxix69.hw0207collections.EmployeeService;
+import ru.manxix69.hw0207collections.services.EmployeeService;
 
 @RestController
 @RequestMapping("/employee")
@@ -26,12 +26,16 @@ public class EmployeeController {
                 "/remove?firstName=Ivan&lastName=Ivanov" + "\n\n" +
                 "найти:" + "\n" +
                 "/find?firstName=Ivan&lastName=Ivanov"
+                
                 ;
     }
 
     @GetMapping(path = "/add")
-    public String add(@RequestParam String firstName, @RequestParam String lastName) {
-        return employeeService.addEmployee(firstName, lastName);
+    public String add(@RequestParam String firstName,
+                      @RequestParam String lastName,
+                      @RequestParam Integer department,
+                      @RequestParam Double salary) {
+        return employeeService.addEmployee(firstName, lastName ,department,  salary);
     }
 
     @GetMapping(path = "/remove")
