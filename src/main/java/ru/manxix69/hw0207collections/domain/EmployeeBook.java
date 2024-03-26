@@ -4,8 +4,8 @@ import ru.manxix69.hw0207collections.exceptions.EmployeeAlreadyAddedException;
 import ru.manxix69.hw0207collections.exceptions.EmployeeNotFoundException;
 import ru.manxix69.hw0207collections.exceptions.EmployeeStorageIsFullException;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
+import java.util.stream.Collectors;
 
 public class EmployeeBook {
 
@@ -13,11 +13,11 @@ public class EmployeeBook {
     private int maxEmployees;
 
     private Map<String, Employee> initialDataEmployees() {
-        employees.put("Кипятков Алексей", new Employee("Кипятков", "Алексей"));
-        employees.put("Иванов Иван", new Employee("Иванов", "Иван"));
-        employees.put("Иванов Петр", new Employee("Иванов", "Петр"));
-        employees.put("Веселов Андрей", new Employee("Веселов", "Андрей"));
-        employees.put("Иванов Сергей", new Employee("Иванов", "Сергей"));
+        employees.put("Кипятков Алексей", new Employee("Кипятков", "Алексей", 1, 332_000.00));
+        employees.put("Иванов Иван", new Employee("Иванов", "Иван", 2, 125_000.00));
+        employees.put("Иванов Петр", new Employee("Иванов", "Петр", 2, 122_000.00));
+        employees.put("Веселов Андрей", new Employee("Веселов", "Андрей", 3, 300_000.00));
+        employees.put("Иванов Сергей", new Employee("Иванов", "Сергей", 3, 290_000.00));
         return employees;
     }
 
@@ -53,5 +53,31 @@ public class EmployeeBook {
 
     public void removeEmployee(Employee employee) {
         employees.remove(employee.getLastName() + " " + employee.getFirstName());
+    }
+
+    public Employee getEmployeeWithMaxSalary(int department) {
+        return new ArrayList<>(employees.values()).stream()
+                .filter(employee -> employee.getDepartment() == department)
+                .max(Comparator.comparingDouble(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
+    }
+
+    public Employee getEmployeeWithMinSalary(int department) {
+        return new ArrayList<>(employees.values()).stream()
+                .filter(employee -> employee.getDepartment() == department)
+                .min(Comparator.comparingDouble(employee -> employee.getSalary()))
+                .orElseThrow(EmployeeNotFoundException::new);
+    }
+
+    public List<Employee> getAllEmployees(int department) {
+        return new ArrayList<>(employees.values()).stream()
+                .filter(employee -> employee.getDepartment() == department)
+                .collect(Collectors.toList());
+    }
+
+    public List<Employee> getAllSortedEmployeesByDepartments() {
+        return new ArrayList<>(employees.values()).stream()
+                .sorted(Comparator.comparingInt(employee -> employee.getDepartment()))
+                .collect(Collectors.toList());
     }
 }
