@@ -35,6 +35,6 @@ public class DepartmentServiceImpl implements DepartmentService {
 
     @Override
     public List<Employee> getAllEmployees() {
-        return employees.getAllEmployees();
+        return employees.getAllSortedEmployeesByDepartments();
     }
 }

@@ -56,32 +56,28 @@ public class EmployeeBook {
     }
 
     public Employee getEmployeeWithMaxSalary(int department) {
-        Employee employeeWithMaxSalary = new ArrayList<>(employees.values()).stream()
+        return new ArrayList<>(employees.values()).stream()
                 .filter(employee -> employee.getDepartment() == department)
                 .max(Comparator.comparingDouble(employee -> employee.getSalary()))
-                .get();
-        return employeeWithMaxSalary;
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public Employee getEmployeeWithMinSalary(int department) {
-        Employee employeeWithMinSalary = new ArrayList<>(employees.values()).stream()
+        return new ArrayList<>(employees.values()).stream()
                 .filter(employee -> employee.getDepartment() == department)
                 .min(Comparator.comparingDouble(employee -> employee.getSalary()))
-                .get();
-        return employeeWithMinSalary;
+                .orElseThrow(EmployeeNotFoundException::new);
     }
 
     public List<Employee> getAllEmployees(int department) {
-        List<Employee> employeeList = new ArrayList<>(employees.values()).stream()
+        return new ArrayList<>(employees.values()).stream()
                 .filter(employee -> employee.getDepartment() == department)
                 .collect(Collectors.toList());
-        return employeeList;
     }
 
-    public List<Employee> getAllEmployees() {
-        List<Employee> employeeList = new ArrayList<>(employees.values()).stream()
+    public List<Employee> getAllSortedEmployeesByDepartments() {
+        return new ArrayList<>(employees.values()).stream()
                 .sorted(Comparator.comparingInt(employee -> employee.getDepartment()))
                 .collect(Collectors.toList());
-        return employeeList;
     }
 }
